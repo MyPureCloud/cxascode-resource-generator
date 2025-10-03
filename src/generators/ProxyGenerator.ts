@@ -35,7 +35,7 @@ class ProxyGenerator extends Generator {
       const path = Generator.swagger.paths[operation.path];
       const firstMethod = Object.keys(path)[0];
       const tag = path[firstMethod].tags[0];
-      const resourceApi = `${tag.replace(/\s+/g, "")}Api`; // Remove all spaces
+      const resourceApi = `${tag.replace(/&/g, "").replace(/\s+/g, "")}Api`; // Remove all spaces and ampersands
 
       if (resourceApi === "Api") {
         throw new Error("Unable to find resource's api");
