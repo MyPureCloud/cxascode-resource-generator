@@ -20,10 +20,10 @@ const resourceName = "genesyscloud_{{snake packageName}}"
 
 // SetRegistrar registers all of the resources, datasources and exporters in the package
 func SetRegistrar(regInstance registrar.Registrar) {
-	regInstance.RegisterResource(resourceName, Resource{{pascal packageName}}())
+	regInstance.RegisterResource(ResourceType, Resource{{pascal packageName}}())
 	{{#unless noGetAll}}
-	regInstance.RegisterDataSource(resourceName, DataSource{{pascal packageName}}())
-	regInstance.RegisterExporter(resourceName, {{pascal packageName}}Exporter())
+	regInstance.RegisterDataSource(ResourceType, DataSource{{pascal packageName}}())
+	regInstance.RegisterExporter(ResourceType, {{pascal packageName}}Exporter())
 	{{/unless}}
 }
 

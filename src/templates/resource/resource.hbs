@@ -39,11 +39,11 @@ func getAllAuth{{pascal packageName}}s(ctx context.Context, clientConfig *platfo
 
 	{{name}}s, resp, err := proxy.getAll{{pascal packageName}}(ctx)
 	if err != nil {
-		return nil, util.BuildAPIDiagnosticError(resourceName, fmt.Sprintf("Failed to get {{english packageName}}: %v", err), resp)
+		return nil, util.BuildAPIDiagnosticError(ResourceType, fmt.Sprintf("Failed to get {{english packageName}}: %v", err), resp)
 	}
 
 	for _, {{name}} := range *{{name}}s {
-		resources[*{{name}}.Id] = &resourceExporter.ResourceMeta{Name: *{{name}}.Name}
+		resources[*{{name}}.Id] = &resourceExporter.ResourceMeta{BlockLabel: *{{name}}.Name}
 	}
 
 	return resources, nil
@@ -67,7 +67,7 @@ func create{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, m
 	log.Printf("Creating {{english packageName}} %s", *{{packageName}}.Name)
 	{{name}}, resp, err := proxy.create{{pascal packageName}}(ctx, &{{packageName}})
 	if err != nil {
-		return util.BuildAPIDiagnosticError(resourceName, fmt.Sprintf("Failed to create {{english packageName}}: %s", err), resp)
+		return util.BuildAPIDiagnosticError(ResourceType, fmt.Sprintf("Failed to create {{english packageName}}: %s", err), resp)
 	}
 
 	d.SetId(*{{name}}.Id)
@@ -87,7 +87,7 @@ func read{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, met
 	{{else}}
 	sdkConfig := meta.(*provider.ProviderMeta).ClientConfig
 	proxy := get{{pascal packageName}}Proxy(sdkConfig)
-	cc := consistency_checker.NewConsistencyCheck(ctx, d, meta, Resource{{pascal packageName}}(), constants.DefaultConsistencyChecks, resourceName)
+	cc := consistency_checker.NewConsistencyCheck(ctx, d, meta, Resource{{pascal packageName}}(), constants.ConsistencyChecks(), resourceName)
 
 	log.Printf("Reading {{english packageName}} %s", d.Id())
 
@@ -95,9 +95,9 @@ func read{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, met
 		{{name}}, resp, getErr := proxy.get{{pascal packageName}}ById(ctx, d.Id())
 		if getErr != nil {
 			if util.IsStatus404(resp) {
-				return retry.RetryableError(util.BuildWithRetriesApiDiagnosticError(resourceName, fmt.Sprintf("Failed to read {{english packageName}} %s: %s", d.Id(), getErr), resp))
+				return retry.RetryableError(util.BuildWithRetriesApiDiagnosticError(ResourceType, fmt.Sprintf("Failed to read {{english packageName}} %s: %s", d.Id(), getErr), resp))
 			}
-			return retry.NonRetryableError(util.BuildWithRetriesApiDiagnosticError(resourceName, fmt.Sprintf("Failed to read {{english packageName}} %s: %s", d.Id(), getErr), resp))
+			return retry.NonRetryableError(util.BuildWithRetriesApiDiagnosticError(ResourceType, fmt.Sprintf("Failed to read {{english packageName}} %s: %s", d.Id(), getErr), resp))
 		}
 
 		{{#each properties~}}{{#if flattenFunction~}}
@@ -135,7 +135,7 @@ func update{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, m
 	log.Printf("Updating {{english packageName}} %s", *{{packageName}}.Name)
 	{{name}}, resp, err := proxy.update{{pascal packageName}}(ctx, d.Id(), &{{packageName}})
 	if err != nil {
-		return util.BuildAPIDiagnosticError(resourceName, fmt.Sprintf("Failed to update {{english packageName}} %s: %s", d.Id(), err), resp)
+		return util.BuildAPIDiagnosticError(ResourceType, fmt.Sprintf("Failed to update {{english packageName}} %s: %s", d.Id(), err), resp)
 	}
 
 	log.Printf("Updated {{english packageName}} %s", *{{name}}.Id)
@@ -157,7 +157,7 @@ func delete{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, m
 	
 	resp, err := proxy.delete{{pascal packageName}}(ctx, d.Id())
 	if err != nil {
-		return util.BuildAPIDiagnosticError(resourceName, fmt.Sprintf("Failed to delete {{english packageName}} %s: %s", d.Id(), err), resp)
+		return util.BuildAPIDiagnosticError(ResourceType, fmt.Sprintf("Failed to delete {{english packageName}} %s: %s", d.Id(), err), resp)
 	}
 
 	return util.WithRetries(ctx, 180*time.Second, func() *retry.RetryError {
@@ -168,10 +168,10 @@ func delete{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, m
 				log.Printf("Deleted {{english packageName}} %s", d.Id())
 				return nil
 			}
-			return retry.NonRetryableError(util.BuildWithRetriesApiDiagnosticError(resourceName, fmt.Sprintf("Error deleting {{english packageName}} %s: %s", d.Id(), err), resp))
+			return retry.NonRetryableError(util.BuildWithRetriesApiDiagnosticError(ResourceType, fmt.Sprintf("Error deleting {{english packageName}} %s: %s", d.Id(), err), resp))
 		}
 
-		return retry.RetryableError(util.BuildWithRetriesApiDiagnosticError(resourceName, fmt.Sprintf("{{english packageName}} %s still exists", d.Id()), resp))
+		return retry.RetryableError(util.BuildWithRetriesApiDiagnosticError(ResourceType, fmt.Sprintf("{{english packageName}} %s still exists", d.Id()), resp))
 	})
 	{{/if}}
 	{{/unless}}
