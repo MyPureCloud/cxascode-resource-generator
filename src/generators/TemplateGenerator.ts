@@ -72,23 +72,23 @@ export class TemplateGenerator extends Generator {
     const packageName = Generator.config.package;
     switch (fileType) {
       case "schema":
-        return `output/${packageName}/resource_genesyscloud_${packageName}_schema.go`
+        return `output/genesyscloud/${packageName}/resource_genesyscloud_${packageName}_schema.go`
       case "proxy":
-        return `output/${packageName}/genesyscloud_${packageName}_proxy.go`
+        return `output/genesyscloud/${packageName}/genesyscloud_${packageName}_proxy.go`
       case "resource":
-        return `output/${packageName}/resource_genesyscloud_${packageName}.go`
+        return `output/genesyscloud/${packageName}/resource_genesyscloud_${packageName}.go`
       case "utils":
-        return `output/${packageName}/resource_genesyscloud_${packageName}_utils.go`
+        return `output/genesyscloud/${packageName}/resource_genesyscloud_${packageName}_utils.go`
       case "dataSource":
-        return `output/${packageName}/data_source_genesyscloud_${packageName}.go`
+        return `output/genesyscloud/${packageName}/data_source_genesyscloud_${packageName}.go`
       case "initTest":
-        return `output/${packageName}/genesyscloud_${packageName}_init_test.go`
+        return `output/genesyscloud/${packageName}/genesyscloud_${packageName}_init_test.go`
       case "dataSourceTest":
-        return `output/${packageName}/data_source_genesyscloud_${packageName}_test.go`
+        return `output/genesyscloud/${packageName}/data_source_genesyscloud_${packageName}_test.go`
       case "resourceTest":
-        return `output/${packageName}/resource_genesyscloud_${packageName}_test.go`
+        return `output/genesyscloud/${packageName}/resource_genesyscloud_${packageName}_test.go`
       case "apis":
-        return `output/${packageName}/examples/resources/genesyscloud_${packageName}/apis.md`;
+        return `output/examples/resources/genesyscloud_${packageName}/apis.md`;
       default:
         throw new Error(`Unknown file type ${fileType}`);
     }

@@ -13,10 +13,10 @@ class DocGenerator extends Generator {
   public generate() {
     console.log(`Creating documentation files for ${Generator.config.package}`);
     this.createFileIfNotExists(
-      `output/${Generator.config.package}/examples/resources/genesyscloud_${Generator.config.package}/resource.tf`
+      `output/examples/resources/genesyscloud_${Generator.config.package}/resource.tf`
     );
     this.createFileIfNotExists(
-      `output/${Generator.config.package}/examples/data-sources/genesyscloud_${Generator.config.package}/data-source.tf`
+      `output/examples/data-sources/genesyscloud_${Generator.config.package}/data-source.tf`
     );
     this.templateGenerator.generate("apis", {
         operations: Generator.config.operations,

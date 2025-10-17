@@ -25,10 +25,11 @@ export default async function main() {
 
   // Create output folders if they don't exist
   createFolderIfNotExists("output");
-  createFolderIfNotExists(`output/${config.package}`);
+  createFolderIfNotExists("output/genesyscloud/");
+  createFolderIfNotExists(`output/genesyscloud/${config.package}`);
 
   // delete all files in package folder
-  await deleteFolderContent(`output/${config.package}`);
+  await deleteFolderContent(`output/genesyscloud/${config.package}`);
 
   if (!config.noSchemaFile) {
     // Generate schema file
@@ -56,19 +57,19 @@ export default async function main() {
 
   if (config.documentation) {
     createFolderIfNotExists(
-      `output/${config.package}/examples/`
+      `output/examples/`
     );
     createFolderIfNotExists(
-      `output/${config.package}/examples/resources`
+      `output/examples/resources/`
     );
     createFolderIfNotExists(
-      `output/${config.package}/examples/data-sources`
+      `output/examples/data-sources/`
     );
     createFolderIfNotExists(
-      `output/${config.package}/examples/resources/genesyscloud_${config.package}`
+      `output/examples/resources/genesyscloud_${config.package}`
     );
     createFolderIfNotExists(
-      `output/${config.package}/examples/data-sources/genesyscloud_${config.package}`
+      `output/examples/data-sources/genesyscloud_${config.package}`
     );
 
     // Generate documentation files
