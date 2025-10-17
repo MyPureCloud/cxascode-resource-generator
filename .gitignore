@@ -1,0 +1,6 @@
+node_modules/
+output/
+*.yml
+*.yaml
+resource.json
+swagger.json

@@ -73,7 +73,7 @@ export abstract class Generator {
     if (process.env.npm_config_resource === "true") {
       const data = JSON.stringify(Generator.parentObject, null, 2);
       fs.writeFileSync("resource.json", data);
-      console.log("Resource object written to data.json");
+      console.log("Resource object written to resource.json");
       process.exit();
     }
   }

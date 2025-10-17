@@ -4,7 +4,7 @@
   "description": "A Cx as Code resource generator",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node app.ts $npm_config_config $npm_config_resource && gofmt -w output/",
+    "start": "ts-node app.ts $npm_config_config $npm_config_resource && mkdir -p output && gofmt -w output/",
     "test": "jest"
   },
   "author": "",
@@ -22,5 +22,13 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "overrides": {
+    "@babel/helpers": "^7.26.10",
+    "@babel/traverse": "^7.23.2",
+    "brace-expansion": "^2.0.1",
+    "braces": "^3.0.3",
+    "cross-spawn": "^7.0.5",
+    "micromatch": "^4.0.8"
   }
 }
