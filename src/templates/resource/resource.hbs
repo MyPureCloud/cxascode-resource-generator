@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/mypurecloud/platform-client-sdk-go/{{version}}/platformclientv2"
-	resourceExporter "terraform-provider-genesyscloud/genesyscloud/resource_exporter"
+	resourceExporter "github.com/mypurecloud/terraform-provider-genesyscloud/genesyscloud/resource_exporter"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	{{#unless skeletonStructure}}
 	"fmt"
@@ -13,12 +13,12 @@ import (
 	"time"
 	{{/if}}
 	
-	"terraform-provider-genesyscloud/genesyscloud/consistency_checker"
+	"github.com/mypurecloud/terraform-provider-genesyscloud/genesyscloud/consistency_checker"
 
-	"terraform-provider-genesyscloud/genesyscloud/provider"
-	"terraform-provider-genesyscloud/genesyscloud/util"
-	"terraform-provider-genesyscloud/genesyscloud/util/constants"
-	"terraform-provider-genesyscloud/genesyscloud/util/resourcedata"
+	"github.com/mypurecloud/terraform-provider-genesyscloud/genesyscloud/provider"
+	"github.com/mypurecloud/terraform-provider-genesyscloud/genesyscloud/util"
+	"github.com/mypurecloud/terraform-provider-genesyscloud/genesyscloud/util/constants"
+	"github.com/mypurecloud/terraform-provider-genesyscloud/genesyscloud/util/resourcedata"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	{{/unless}}
@@ -87,7 +87,7 @@ func read{{pascal packageName}}(ctx context.Context, d *schema.ResourceData, met
 	{{else}}
 	sdkConfig := meta.(*provider.ProviderMeta).ClientConfig
 	proxy := get{{pascal packageName}}Proxy(sdkConfig)
-	cc := consistency_checker.NewConsistencyCheck(ctx, d, meta, Resource{{pascal packageName}}(), constants.ConsistencyChecks(), resourceName)
+	cc := consistency_checker.NewConsistencyCheck(ctx, d, meta, Resource{{pascal packageName}}(), constants.ConsistencyChecks(), ResourceType)
 
 	log.Printf("Reading {{english packageName}} %s", d.Id())
 
